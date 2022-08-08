@@ -59,3 +59,8 @@ Puis on importe le react-navigation/stack
 npm install @react-navigation/stack
 expo install react-native-gesture-handler
 ```
+
+Install de [react-native-heroicons](https://www.npmjs.com/package/react-native-heroicons)
+```bash
+npm i react-native-heroicons react-native-svg
+```
