@@ -1,8 +1,9 @@
-import { View, Text, ScrollView } from 'react-native'
+import { View, Text, ScrollView, Touchable, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { ArrowRightIcon } from 'react-native-heroicons/outline'
 import RestaurantCards from './RestaurantCards'
 import sanityClient from '../sanity';
+import {useNavigation} from '@react-navigation/native'
 
 export default function FeaturedRow({id, title, description}) {
 
@@ -27,6 +28,8 @@ export default function FeaturedRow({id, title, description}) {
 
     //console.log(restaurant);
 
+    const navigation = useNavigation();
+
   return (
     <View>
         <View className='mt-4 flex-row items-center justify-between px-4'>
@@ -47,8 +50,8 @@ export default function FeaturedRow({id, title, description}) {
             {/* RestaurantCards... */}
 
             {restaurants?.map((restaurant) => (
-                    <RestaurantCards 
-                        key={restaurant._id+(Math.random() + 1).toString(36).substring(7)}
+                <RestaurantCards
+                        key={restaurant._id}
                         id={restaurant._id}
                         imgUrl={restaurant.image}
                         title={restaurant.name}
@@ -61,7 +64,6 @@ export default function FeaturedRow({id, title, description}) {
                         lat={restaurant.lat}
                     ></RestaurantCards>
             ))}
-
             
         </ScrollView>
     </View>

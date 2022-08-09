@@ -31,7 +31,7 @@ export default function Categories() {
 
         {categories?.map((category) => (
             <CategoryCard
-                key={category._id+(Math.random() + 1).toString(36).substring(7)}
+                key={category._id}
                 imgUrl={urlFor(category.image).url()}
                 title={category.name}
             ></CategoryCard>

@@ -97,3 +97,8 @@ sanity deploy # deliveroo-clone-tche
 On crée un fichier `./sanity.js` et on écrit nos fonctions de connexions a la bdd Sanity.io et une fonction pour récupérer l'url des images.  
 
 Si erreur 'Duplicated files or mocks. Please check the console for more info' alors on change le nom du `./sanity/package.json` en `./sanity/package_1.json`. Le problème c'est quand l'on a plusieurs package.json.  
+
+Installation de [react-currency-formatter](https://www.npmjs.com/package/react-currency-formatter)
+```bash
+npm install react-currency-formatter --save --force
+``` 
