@@ -1,9 +1,32 @@
 import { View, Text, ScrollView } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ArrowRightIcon } from 'react-native-heroicons/outline'
 import RestaurantCards from './RestaurantCards'
+import sanityClient from '../sanity';
 
 export default function FeaturedRow({id, title, description}) {
+
+    const [restaurants, setRestaurants] = useState([])
+
+    useEffect(() => {
+        sanityClient.fetch(
+            `
+            *[_type == "featured" && _id == $id]{
+                ...,
+                restaurants[]->{
+                    ...,
+                    dishes[]->,
+                    type-> {
+                        name
+                    }
+                }
+            }[0]
+            `, {id: id}
+        ).then((data) => {setRestaurants(data?.restaurants)})
+    })
+
+    //console.log(restaurant);
+
   return (
     <View>
         <View className='mt-4 flex-row items-center justify-between px-4'>
@@ -22,45 +45,23 @@ export default function FeaturedRow({id, title, description}) {
             className='pt-4'
         >
             {/* RestaurantCards... */}
-            <RestaurantCards 
-                id={132} 
-                imgUrl='https://picsum.photos/200/300' 
-                title="Yo sushi"
-                rating={4.5}
-                genre="Japanese" 
-                address="1 main st" 
-                shortDescription="lorem azeh luiaz azeah oaho"
-                dishes={[]} 
-                long={20} 
-                lat={0}
-            >
-            </RestaurantCards>
-            <RestaurantCards 
-                id={132} 
-                imgUrl='https://picsum.photos/200/300' 
-                title="Yo sushi"
-                rating={4.5}
-                genre="Japanese" 
-                address="1 main st" 
-                shortDescription="lorem azeh luiaz azeah oaho"
-                dishes={[]} 
-                long={20} 
-                lat={0}
-            >
-            </RestaurantCards>
-            <RestaurantCards 
-                id={132} 
-                imgUrl='https://picsum.photos/200/300' 
-                title="Yo sushi"
-                rating={4.5}
-                genre="Japanese" 
-                address="1 main st" 
-                shortDescription="lorem azeh luiaz azeah oaho"
-                dishes={[]} 
-                long={20} 
-                lat={0}
-            >
-            </RestaurantCards>
+
+            {restaurants?.map((restaurant) => (
+                    <RestaurantCards 
+                        key={restaurant._id+(Math.random() + 1).toString(36).substring(7)}
+                        id={restaurant._id}
+                        imgUrl={restaurant.image}
+                        title={restaurant.name}
+                        rating={restaurant.rating}
+                        genre={restaurant.type?.name}
+                        address={restaurant.address}
+                        shortDescription={restaurant.shortDescription}
+                        dishes={restaurant.dishes}
+                        long={restaurant.long}
+                        lat={restaurant.lat}
+                    ></RestaurantCards>
+            ))}
+
             
         </ScrollView>
     </View>

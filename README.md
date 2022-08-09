@@ -64,3 +64,36 @@ Install de [react-native-heroicons](https://www.npmjs.com/package/react-native-h
 ```bash
 npm i react-native-heroicons react-native-svg
 ```
+
+Install de [Sanity](https://www.sanity.io/) avec un code de réduction de Sonny
+```bash
+npm install -g @sanity/cli
+sanity init --coupon sonny2022 # Yes ; sanity ; Blog (schema)
+```
+
+Configuration de la basse :
+```bash
+sanity start
+```
+On change les schemas de la bdd dans `./sanity/schemas/`. Puis on complet la bdd depuis la page web.  
+
+Install de sanity client et imgUrl
+```bash
+npm i @sanity/client @sanity/image-url
+```
+
+Puis on ajoute un cors origin.  
+```bash
+cd sanity/
+sanity cors add http://localhost:3000 # Yes
+sanity cors add http://localhost:19006 # Yes
+```
+
+Et apres on deploy la bdd
+```bash
+sanity deploy # deliveroo-clone-tche
+```
+
+On crée un fichier `./sanity.js` et on écrit nos fonctions de connexions a la bdd Sanity.io et une fonction pour récupérer l'url des images.  
+
+Si erreur 'Duplicated files or mocks. Please check the console for more info' alors on change le nom du `./sanity/package.json` en `./sanity/package_1.json`. Le problème c'est quand l'on a plusieurs package.json.  

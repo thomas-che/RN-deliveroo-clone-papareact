@@ -3,12 +3,13 @@ import { TouchableOpacity } from 'react-native'
 import { StarIcon } from 'react-native-heroicons/solid'
 import { View, Text, Image } from 'react-native'
 import { LocationMarkerIcon } from 'react-native-heroicons/outline'
+import { urlFor } from '../sanity'
 
 export default function RestaurantCards({id, imgUrl, title, rating, genre, address, shortDescription, dishes, long, lat}) {
   return (
     <TouchableOpacity className='bg-white mr-3 shadow'>
         <Image 
-            source={{uri: imgUrl}}
+            source={{uri: urlFor(imgUrl).url()}}
             className='h-36 w-64 rounded-sm'
         ></Image>
         <View className='px-3 pb-4'>

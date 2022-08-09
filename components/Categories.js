@@ -1,8 +1,23 @@
 import { View, Text, ScrollView } from 'react-native'
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import CategoryCard from './CategoryCard'
+import sanityClient from '../sanity';
+import { urlFor } from '../sanity'
 
 export default function Categories() {
+
+  const [categories, setCategories] = useState([])
+
+  useEffect(() => {
+      sanityClient.fetch(
+          `
+          *[_type == "category"]
+          `
+      ).then((data) => {setCategories(data)})
+  }, [])
+
+  console.log(categories);
+
   return (
     <ScrollView
         contentContainerStyle={{
@@ -13,12 +28,15 @@ export default function Categories() {
         showsHorizontalScrollIndicator={false}
     >
         {/* CategoryCard */}
-        <CategoryCard imgUrl='https://picsum.photos/200/300' title='Texting 1'></CategoryCard>
-        <CategoryCard imgUrl='https://picsum.photos/200/300' title='Texting 2'></CategoryCard>
-        <CategoryCard imgUrl='https://picsum.photos/200/300' title='Texting 3'></CategoryCard>
-        <CategoryCard imgUrl='https://picsum.photos/200/300' title='Texting 1'></CategoryCard>
-        <CategoryCard imgUrl='https://picsum.photos/200/300' title='Texting 2'></CategoryCard>
-        <CategoryCard imgUrl='https://picsum.photos/200/300' title='Texting 3'></CategoryCard>
+
+        {categories?.map((category) => (
+            <CategoryCard
+                key={category._id+(Math.random() + 1).toString(36).substring(7)}
+                imgUrl={urlFor(category.image).url()}
+                title={category.name}
+            ></CategoryCard>
+        ))}
+
     </ScrollView>
   )
 }

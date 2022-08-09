@@ -1,20 +1,37 @@
 import { View, Text, SafeAreaView, Image, TextInput, ScrollView } from 'react-native'
-import React, { useLayoutEffect } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import {useNavigation} from '@react-navigation/native'
 import { UserIcon, ChevronDownIcon, SearchIcon, AdjustmentsIcon } from "react-native-heroicons/outline";
 import Categories from '../components/Categories';
 import FeaturedRow from '../components/FeaturedRow';
-
+import sanityClient from '../sanity';
 
 export default function HomeScreen() {
 
     const navigation = useNavigation();
+    const [featuredCategories, setFeaturedCategories] = useState([])
 
     useLayoutEffect(() => {
         navigation.setOptions({
             headerShown: false,
         })
     }, [])
+
+    useEffect(() => {
+        sanityClient.fetch(
+            `
+            *[_type == "featured"]{
+                ...,
+                restaurants[]->{
+                    ...,
+                    dishes[]->
+                }
+            }
+            `
+        ).then((data) => {setFeaturedCategories(data)})
+    }, [])
+
+    console.log(featuredCategories);
 
   return (
     <SafeAreaView className='bg-white pt-5'>
@@ -54,23 +71,17 @@ export default function HomeScreen() {
                 <Categories></Categories>    
 
                 {/* featured rows */}
-                <FeaturedRow
-                    id="123"
-                    title="Fearured"
-                    description="Paid placement from our partners"
-                ></FeaturedRow>
-                {/* Tasty discout rows */}
-                <FeaturedRow
-                    id="1234"
-                    title="Tasty discounts"
-                    description="AAA AAAA AAAAAA AAAAAAAA AAAAA aaaaa"                    
-                ></FeaturedRow>
-                {/* Offers near you */}
-                <FeaturedRow
-                    id="12345"
-                    title="Offers near you"
-                    description="ZZZ ZZZZ zZZZZZZZ ZZZZ Zzzzz zzzz"
-                ></FeaturedRow>
+                
+                {featuredCategories?.map((category) => (
+                    <FeaturedRow
+                        key={category._id+(Math.random() + 1).toString(36).substring(7)}
+                        id={category._id}
+                        title={category.name}
+                        description={category.shortDescription}
+                    ></FeaturedRow>
+                ))}
+
+                
 
             </ScrollView>
 
