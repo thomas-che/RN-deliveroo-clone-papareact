@@ -102,3 +102,10 @@ Installation de [react-currency-formatter](https://www.npmjs.com/package/react-c
 ```bash
 npm install react-currency-formatter --save --force
 ``` 
+
+Install de [redux](https://redux-toolkit.js.org/tutorials/quick-start)
+```bash
+npm install @reduxjs/toolkit react-redux --save --force
+```
+
+Puis on crée un fichier `./store.js` et un fichier `./features/basketSlice.js` qui contiendra nos méthodes de redux.  
