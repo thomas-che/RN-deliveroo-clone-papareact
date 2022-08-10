@@ -109,3 +109,13 @@ npm install @reduxjs/toolkit react-redux --save --force
 ```
 
 Puis on crée un fichier `./store.js` et un fichier `./features/basketSlice.js` qui contiendra nos méthodes de redux.  
+
+Install de [react-native-animatable](https://github.com/oblador/react-native-animatable) pour afficher notre animation.  
+```bash
+npm install react-native-animatable --save
+```
+
+Install de [react-native-progress](https://www.npmjs.com/package/react-native-progress)
+```bash
+npm i react-native-progress
+```
